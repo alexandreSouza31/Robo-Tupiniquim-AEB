@@ -2,7 +2,7 @@
 {
     internal class Program
     {
-        public static string instrucao = "mmmmmMmmmemmmmmmmmmm".ToUpper();
+        public static string instrucao = "mmmmmMmmmemmmmmmmmm".ToUpper();
 
         static void Main(string[] args)
         {
@@ -34,13 +34,7 @@
                 }
                 else Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
             }
-
-            if (movimentoValido)
-            {
-                string localizacaoRobo = $"{Movimentar.posicaoX},{Movimentar.posicaoY}";
-                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{Movimentar.direcaoAtualRobo}");
-            }
-            else Console.WriteLine("\nMovimento inválido - O robô ultrapassou os limites do grid.");
+            Movimentar.ExibirLocalizacao(movimentoValido);
             Console.ReadLine();
         }
     }

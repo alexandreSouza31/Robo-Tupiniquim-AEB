@@ -31,5 +31,25 @@
 
             return (posicaoX, posicaoY);
         }
+
+        public static void ExibirLocalizacao(bool movimentoValido)
+        {
+            if (movimentoValido)
+            {
+                string localizacaoRobo = $"{Movimentar.posicaoX},{Movimentar.posicaoY}";
+                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{Movimentar.direcaoAtualRobo}");
+                return;
+            }
+            else
+            {
+                ExibirMensagemErro();
+                return;
+            }
+        }
+
+        public static void ExibirMensagemErro()
+        {
+            Console.WriteLine("\nMovimento inválido - O robô ultrapassou os limites do grid.");
+        }
     }
 }
