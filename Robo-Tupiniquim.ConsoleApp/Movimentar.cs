@@ -21,13 +21,14 @@
             else if (direcaoAtualRobo == 'L') direcaoAtualRobo = 'N';
             return direcaoAtualRobo;
         }
-        public static (int, int) MoverRobo(int qtdMovimentos)
+        public static (int, int)? MoverRobo(int qtdMovimentos)
         {
             if (direcaoAtualRobo == 'N' && posicaoY + qtdMovimentos <= 10) posicaoY += qtdMovimentos;
             else if (direcaoAtualRobo == 'S' && posicaoY - qtdMovimentos >= 0) posicaoY -= qtdMovimentos;
             else if (direcaoAtualRobo == 'L' && posicaoX + qtdMovimentos <= 10) posicaoX += qtdMovimentos;
             else if (direcaoAtualRobo == 'O' && posicaoX - qtdMovimentos >= 0) posicaoX -= qtdMovimentos;
-            else Console.WriteLine("Você ultrapassou os limites do grid! [mínimo: x=0, y=0; máximo: X=10, y=10]");
+            else return null;
+
             return (posicaoX, posicaoY);
         }
     }

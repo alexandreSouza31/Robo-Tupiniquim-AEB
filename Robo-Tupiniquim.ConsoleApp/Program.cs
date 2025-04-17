@@ -2,10 +2,12 @@
 {
     internal class Program
     {
-        public static string instrucao = "mmmmmMmmmeemmmmmmmmmm".ToUpper();
+        public static string instrucao = "mmmmmMmmmemmmmmmmmmm".ToUpper();
 
         static void Main(string[] args)
         {
+            bool movimentoValido = true;
+
             for (int i = 0; i < instrucao.Length; i++)
             {
                 char comando = instrucao[i];
@@ -22,12 +24,23 @@
                         i++;
                     }
                     i--;
-                    (Movimentar.posicaoX, Movimentar.posicaoY) = Movimentar.MoverRobo(qtdMovimentos);
+
+                    var resultadoMovimento = Movimentar.MoverRobo(qtdMovimentos);
+                    if (resultadoMovimento == null)
+                    {
+                        movimentoValido = false;
+                        break;
+                    }
                 }
                 else Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
             }
-            string localizacaoRobo = $"{Movimentar.posicaoX},{Movimentar.posicaoY}";
-            Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{Movimentar.direcaoAtualRobo}");
+
+            if (movimentoValido)
+            {
+                string localizacaoRobo = $"{Movimentar.posicaoX},{Movimentar.posicaoY}";
+                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{Movimentar.direcaoAtualRobo}");
+            }
+            else Console.WriteLine("\nMovimento inválido - O robô ultrapassou os limites do grid.");
             Console.ReadLine();
         }
     }
