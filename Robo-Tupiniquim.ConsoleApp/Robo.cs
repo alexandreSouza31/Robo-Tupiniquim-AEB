@@ -4,29 +4,60 @@
     {
         public int posicaoX = 0;
         public int posicaoY = 0;
-        public char direcaoAtualRobo = 'L';
+        public char direcaoAtual = 'L';
+
+        public void ExecutarInstrucoes(string instrucao)
+        {
+            for (int i = 0; i < instrucao.Length; i++)
+            {
+                char comando = instrucao[i];
+
+                if (comando == 'D') VirarDireita();
+                else if (comando == 'E') VirarEsquerda();
+                else if (comando == 'M')
+                {
+                    int qtdMovimentos = 0;
+                    int j = i;
+                    while (j < instrucao.Length && instrucao[j] == 'M')
+                    {
+                        qtdMovimentos++;
+                        j++;
+                    }
+                    i = j - 1;
+
+                    bool valido = Mover(qtdMovimentos);
+                    if (!valido)
+                    {
+                        ExibirLocalizacao(false);
+                        return;
+                    }
+                }
+                else Console.WriteLine("Comando inválido.");
+            }
+            ExibirLocalizacao(true);
+        }
         public char VirarDireita()
         {
-            if (direcaoAtualRobo == 'N') direcaoAtualRobo = 'L';
-            else if (direcaoAtualRobo == 'L') direcaoAtualRobo = 'S';
-            else if (direcaoAtualRobo == 'S') direcaoAtualRobo = 'O';
-            else if (direcaoAtualRobo == 'O') direcaoAtualRobo = 'N';
-            return direcaoAtualRobo;
+            if (direcaoAtual == 'N') direcaoAtual = 'L';
+            else if (direcaoAtual == 'L') direcaoAtual = 'S';
+            else if (direcaoAtual == 'S') direcaoAtual = 'O';
+            else if (direcaoAtual == 'O') direcaoAtual = 'N';
+            return direcaoAtual;
         }
         public char VirarEsquerda()
         {
-            if (direcaoAtualRobo == 'N') direcaoAtualRobo = 'O';
-            else if (direcaoAtualRobo == 'O') direcaoAtualRobo = 'S';
-            else if (direcaoAtualRobo == 'S') direcaoAtualRobo = 'L';
-            else if (direcaoAtualRobo == 'L') direcaoAtualRobo = 'N';
-            return direcaoAtualRobo;
+            if (direcaoAtual == 'N') direcaoAtual = 'O';
+            else if (direcaoAtual == 'O') direcaoAtual = 'S';
+            else if (direcaoAtual == 'S') direcaoAtual = 'L';
+            else if (direcaoAtual == 'L') direcaoAtual = 'N';
+            return direcaoAtual;
         }
         public bool Mover(int qtdMovimentos)
         {
-            if (direcaoAtualRobo == 'N' && posicaoY + qtdMovimentos <= 10) posicaoY += qtdMovimentos;
-            else if (direcaoAtualRobo == 'S' && posicaoY - qtdMovimentos >= 0) posicaoY -= qtdMovimentos;
-            else if (direcaoAtualRobo == 'L' && posicaoX + qtdMovimentos <= 10) posicaoX += qtdMovimentos;
-            else if (direcaoAtualRobo == 'O' && posicaoX - qtdMovimentos >= 0) posicaoX -= qtdMovimentos;
+            if (direcaoAtual == 'N' && posicaoY + qtdMovimentos <= 10) posicaoY += qtdMovimentos;
+            else if (direcaoAtual == 'S' && posicaoY - qtdMovimentos >= 0) posicaoY -= qtdMovimentos;
+            else if (direcaoAtual == 'L' && posicaoX + qtdMovimentos <= 10) posicaoX += qtdMovimentos;
+            else if (direcaoAtual == 'O' && posicaoX - qtdMovimentos >= 0) posicaoX -= qtdMovimentos;
             else return false;
             return true;
         }
@@ -35,8 +66,8 @@
         {
             if (movimentoValido)
             {
-                string localizacaoRobo = $"{posicaoX},{posicaoY}";
-                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{direcaoAtualRobo}");
+                string localizacao = $"{posicaoX},{posicaoY}";
+                Console.WriteLine($"\nLocalização do robô:{localizacao},{direcaoAtual}");
                 return;
             }
             else
