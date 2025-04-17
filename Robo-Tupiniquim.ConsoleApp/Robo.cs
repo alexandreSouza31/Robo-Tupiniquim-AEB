@@ -1,11 +1,11 @@
 ﻿namespace Robo_Tupiniquim.ConsoleApp
 {
-    public class Movimentar
+    public class Robo
     {
-        public static int posicaoX = 0;
-        public static int posicaoY = 0;
-        public static char direcaoAtualRobo = 'L';
-        public static char VirarDireita()
+        public int posicaoX = 0;
+        public int posicaoY = 0;
+        public char direcaoAtualRobo = 'L';
+        public char VirarDireita()
         {
             if (direcaoAtualRobo == 'N') direcaoAtualRobo = 'L';
             else if (direcaoAtualRobo == 'L') direcaoAtualRobo = 'S';
@@ -13,7 +13,7 @@
             else if (direcaoAtualRobo == 'O') direcaoAtualRobo = 'N';
             return direcaoAtualRobo;
         }
-        public static char VirarEsquerda()
+        public char VirarEsquerda()
         {
             if (direcaoAtualRobo == 'N') direcaoAtualRobo = 'O';
             else if (direcaoAtualRobo == 'O') direcaoAtualRobo = 'S';
@@ -21,23 +21,22 @@
             else if (direcaoAtualRobo == 'L') direcaoAtualRobo = 'N';
             return direcaoAtualRobo;
         }
-        public static (int, int)? MoverRobo(int qtdMovimentos)
+        public bool Mover(int qtdMovimentos)
         {
             if (direcaoAtualRobo == 'N' && posicaoY + qtdMovimentos <= 10) posicaoY += qtdMovimentos;
             else if (direcaoAtualRobo == 'S' && posicaoY - qtdMovimentos >= 0) posicaoY -= qtdMovimentos;
             else if (direcaoAtualRobo == 'L' && posicaoX + qtdMovimentos <= 10) posicaoX += qtdMovimentos;
             else if (direcaoAtualRobo == 'O' && posicaoX - qtdMovimentos >= 0) posicaoX -= qtdMovimentos;
-            else return null;
-
-            return (posicaoX, posicaoY);
+            else return false;
+            return true;
         }
 
-        public static void ExibirLocalizacao(bool movimentoValido)
+        public void ExibirLocalizacao(bool movimentoValido)
         {
             if (movimentoValido)
             {
-                string localizacaoRobo = $"{Movimentar.posicaoX},{Movimentar.posicaoY}";
-                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{Movimentar.direcaoAtualRobo}");
+                string localizacaoRobo = $"{posicaoX},{posicaoY}";
+                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{direcaoAtualRobo}");
                 return;
             }
             else
@@ -47,9 +46,7 @@
             }
         }
 
-        public static void ExibirMensagemErro()
-        {
-            Console.WriteLine("\nMovimento inválido - O robô ultrapassou os limites do grid.");
-        }
+        public void ExibirMensagemErro()
+        { Console.WriteLine("\nMovimento inválido - O robô ultrapassou os limites do grid."); }
     }
 }

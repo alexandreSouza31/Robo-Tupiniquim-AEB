@@ -2,40 +2,56 @@
 {
     internal class Program
     {
-        public static string instrucao = "mmmmmMmmmemmmmmmmmm".ToUpper();
-
         static void Main(string[] args)
         {
-            bool movimentoValido = true;
+            Robo robo1 = new Robo();
+            Robo robo2 = new Robo();
 
+            string instrucao1 = "MMMMMMeMME";
+            string instrucao2 = "MMEMMMDDM";
+
+            Console.WriteLine("Movimentos do Robô 1:");
+            ExecutarInstrucoes(robo1, instrucao1.ToUpper());
+
+            Console.WriteLine("\nMovimentos do Robô 2:");
+            ExecutarInstrucoes(robo2, instrucao2.ToUpper());
+
+            Console.ReadLine();
+        }
+
+        static void ExecutarInstrucoes(Robo robo, string instrucao)
+        {
             for (int i = 0; i < instrucao.Length; i++)
             {
                 char comando = instrucao[i];
 
-                if (comando == 'D') Movimentar.VirarDireita();
-                else if (comando == 'E') Movimentar.VirarEsquerda();
+                if (comando == 'D') robo.VirarDireita();
+                else if (comando == 'E') robo.VirarEsquerda();
                 else if (comando == 'M')
                 {
                     int qtdMovimentos = 0;
-
-                    while (i < instrucao.Length && instrucao[i] == 'M')
+                    int j = i;
+                    while (j < instrucao.Length && instrucao[j] == 'M')
                     {
                         qtdMovimentos++;
-                        i++;
+                        j++;
                     }
-                    i--;
+                    i = j - 1;
 
-                    var resultadoMovimento = Movimentar.MoverRobo(qtdMovimentos);
-                    if (resultadoMovimento == null)
+                    bool valido = robo.Mover(qtdMovimentos);
+                    if (!valido)
                     {
-                        movimentoValido = false;
-                        break;
+                        robo.ExibirLocalizacao(false);
+                        return;
                     }
                 }
-                else Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
+                else
+                {
+                    Console.WriteLine("Comando inválido.");
+                }
             }
-            Movimentar.ExibirLocalizacao(movimentoValido);
-            Console.ReadLine();
+
+            robo.ExibirLocalizacao(true);
         }
     }
 }
