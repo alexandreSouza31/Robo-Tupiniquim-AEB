@@ -7,30 +7,42 @@
             int posicaoX = 0;
             int posicaoY = 0;
             string localizacaoRobo = $"{posicaoX},{posicaoY}";
-            char direcaoRobo = 'L'; //Direção começa
-            string instrucao = "eee".ToUpper();
+            char direcaoRobo = 'L';
+            string instrucao = "eeemmDmm".ToUpper();
 
+            while (true)
+            {
                 for (int i = 0; i < instrucao.Length; i++)
                 {
                     char comando = instrucao[i];
 
-                    if (comando == 'D')
+                    if (comando == 'D') direcaoRobo = VirarDireita(direcaoRobo);
+                    else if (comando == 'E') direcaoRobo = VirarEsquerda(direcaoRobo);
+                    else if (comando == 'M')
                     {
-                        direcaoRobo = VirarDireita(direcaoRobo);
-                    }
-                    else if (comando == 'E')
-                    {
-                        direcaoRobo = VirarEsquerda(direcaoRobo);
+                        int qtdMovimentos = 0;
+
+                        while (i < instrucao.Length && instrucao[i] == 'M')
+                        {
+                            qtdMovimentos++;
+                            i++;
+                        }
+                        i--;
+
+                        if (direcaoRobo == 'N') posicaoY += qtdMovimentos;
+                        else if (direcaoRobo == 'S') posicaoY -= qtdMovimentos;
+                        else if (direcaoRobo == 'L') posicaoX += qtdMovimentos;
+                        else if (direcaoRobo == 'O') posicaoX -= qtdMovimentos;
                     }
                     else
                     {
                         Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
-                        //Console.ReadLine();
-                        break;
                     }
                 }
+                localizacaoRobo = $"{posicaoX},{posicaoY}";
                 Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{direcaoRobo}");
                 Console.ReadLine();
+            }
 
             static char VirarDireita(char direcaoAtual)
             {
