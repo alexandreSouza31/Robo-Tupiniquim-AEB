@@ -10,56 +10,58 @@
             char direcaoRobo = 'L';
             string instrucao = "eeemmDmm".ToUpper();
 
-            while (true)
+            for (int i = 0; i < instrucao.Length; i++)
             {
-                for (int i = 0; i < instrucao.Length; i++)
+                char comando = instrucao[i];
+
+                if (comando == 'D') direcaoRobo = VirarDireita(direcaoRobo);
+                else if (comando == 'E') direcaoRobo = VirarEsquerda(direcaoRobo);
+                else if (comando == 'M')
                 {
-                    char comando = instrucao[i];
+                    int qtdMovimentos = 0;
 
-                    if (comando == 'D') direcaoRobo = VirarDireita(direcaoRobo);
-                    else if (comando == 'E') direcaoRobo = VirarEsquerda(direcaoRobo);
-                    else if (comando == 'M')
+                    while (i < instrucao.Length && instrucao[i] == 'M')
                     {
-                        int qtdMovimentos = 0;
-
-                        while (i < instrucao.Length && instrucao[i] == 'M')
-                        {
-                            qtdMovimentos++;
-                            i++;
-                        }
-                        i--;
-
-                        if (direcaoRobo == 'N') posicaoY += qtdMovimentos;
-                        else if (direcaoRobo == 'S') posicaoY -= qtdMovimentos;
-                        else if (direcaoRobo == 'L') posicaoX += qtdMovimentos;
-                        else if (direcaoRobo == 'O') posicaoX -= qtdMovimentos;
+                        qtdMovimentos++;
+                        i++;
                     }
-                    else
-                    {
-                        Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
-                    }
+                    i--;
+                    (posicaoX, posicaoY) = MoverRobo(direcaoRobo, posicaoX, posicaoY, qtdMovimentos);
                 }
-                localizacaoRobo = $"{posicaoX},{posicaoY}";
-                Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{direcaoRobo}");
-                Console.ReadLine();
+                else
+                {
+                    Console.WriteLine($"Comando inválido: Utilize [D], para direita, [M], para mover, ou [E] para esquerda!");
+                }
             }
+            localizacaoRobo = $"{posicaoX},{posicaoY}";
+            Console.WriteLine($"\nLocalização do robô:{localizacaoRobo},{direcaoRobo}");
+            Console.ReadLine();
+        }
 
-            static char VirarDireita(char direcaoAtual)
-            {
-                if (direcaoAtual == 'N') return 'L';
-                else if (direcaoAtual == 'L') return 'S';
-                else if (direcaoAtual == 'S') return 'O';
-                else if (direcaoAtual == 'O') return 'N';
-                return direcaoAtual;
-            }
-            static char VirarEsquerda(char direcaoAtual)
-            {
-                if (direcaoAtual == 'N') return 'O';
-                else if (direcaoAtual == 'O') return 'S';
-                else if (direcaoAtual == 'S') return 'L';
-                else if (direcaoAtual == 'L') return 'N';
-                return direcaoAtual;
-            }
+        static char VirarDireita(char direcaoAtual)
+        {
+            if (direcaoAtual == 'N') return 'L';
+            else if (direcaoAtual == 'L') return 'S';
+            else if (direcaoAtual == 'S') return 'O';
+            else if (direcaoAtual == 'O') return 'N';
+            return direcaoAtual;
+        }
+        static char VirarEsquerda(char direcaoAtual)
+        {
+            if (direcaoAtual == 'N') return 'O';
+            else if (direcaoAtual == 'O') return 'S';
+            else if (direcaoAtual == 'S') return 'L';
+            else if (direcaoAtual == 'L') return 'N';
+            return direcaoAtual;
+        }
+
+        static (int, int) MoverRobo(char direcaoRobo, int posicaoX, int posicaoY, int qtdMovimentos)
+        {
+            if (direcaoRobo == 'N') posicaoY += qtdMovimentos;
+            else if (direcaoRobo == 'S') posicaoY -= qtdMovimentos;
+            else if (direcaoRobo == 'L') posicaoX += qtdMovimentos;
+            else if (direcaoRobo == 'O') posicaoX -= qtdMovimentos;
+            return (posicaoX, posicaoY);
         }
     }
 }
