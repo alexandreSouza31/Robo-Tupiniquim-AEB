@@ -8,7 +8,7 @@
             int posicaoY = 0;
             string localizacaoRobo = $"{posicaoX},{posicaoY}";
             char direcaoRobo = 'L';
-            string instrucao = "eeemmDmm".ToUpper();
+            string instrucao = "mmmmmmMmmmm".ToUpper();
 
             for (int i = 0; i < instrucao.Length; i++)
             {
@@ -57,10 +57,11 @@
 
         static (int, int) MoverRobo(char direcaoRobo, int posicaoX, int posicaoY, int qtdMovimentos)
         {
-            if (direcaoRobo == 'N') posicaoY += qtdMovimentos;
-            else if (direcaoRobo == 'S') posicaoY -= qtdMovimentos;
-            else if (direcaoRobo == 'L') posicaoX += qtdMovimentos;
-            else if (direcaoRobo == 'O') posicaoX -= qtdMovimentos;
+            if (direcaoRobo == 'N' && posicaoY + qtdMovimentos <= 10) posicaoY += qtdMovimentos;
+            else if (direcaoRobo == 'S' && posicaoY - qtdMovimentos >= 0) posicaoY -= qtdMovimentos;
+            else if (direcaoRobo == 'L' && posicaoX + qtdMovimentos <= 10) posicaoX += qtdMovimentos;
+            else if (direcaoRobo == 'O' && posicaoX - qtdMovimentos >= 0) posicaoX -= qtdMovimentos;
+            else Console.WriteLine("Você ultrapassou os limites do grid! [mínimo: x=0, y=0; máximo: X=10, y=10]");
             return (posicaoX, posicaoY);
         }
     }
